@@ -7,8 +7,7 @@ edition = "2021"
 
 [dependencies]
 clap = { version = "4.0.26", features = ["derive"] }
-rand_core = { version = "0.6", features = ["getrandom"] }
-x25519-dalek = { git="https://github.com/dalek-cryptography/x25519-dalek", branch="release/2.0"}
+libsodium-sys-stable = "1.19.27"
 
 [profile.release]
 strip = true

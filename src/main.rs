@@ -1,9 +1,8 @@
 use clap::Parser;
-use rand_core::OsRng;
+use libsodium_sys::{crypto_kx_keypair, sodium_init, sodium_memzero};
 use std::error::Error;
 use std::fs::File;
 use std::io::Write;
-use x25519_dalek::{PublicKey, StaticSecret};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -22,17 +21,28 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     println!("private key: {}, public key: {}", cli.secret, cli.public);
 
-    let secret = StaticSecret::new(OsRng);
-    let public = PublicKey::from(&secret);
+    let mut secret = [0u8; 32];
+    let mut public = [0u8; 32];
+
+    if unsafe { sodium_init() } < 0 {
+        return Err("failed to init libsodium".into());
+    }
+
+    if unsafe { crypto_kx_keypair(secret.as_mut_ptr(), public.as_mut_ptr()) } != 0 {
+        return Err("failed to generate keypair".into());
+    }
 
     let mut file = File::create(cli.secret)?;
-    file.write_all(&secret.to_bytes())?;
+    file.write_all(&secret)?;
 
     let mut file = File::create(cli.public)?;
-    file.write_all(&public.to_bytes())?;
+    file.write_all(&public)?;
+
+    unsafe {
+        sodium_memzero(secret.as_mut_ptr().cast(), 32);
+    }
 
     println!("Generation successful!");
 
     Ok(())
 }
-
