@@ -1,5 +1,5 @@
 use clap::Parser;
-use libsodium_sys::{crypto_kx_keypair, sodium_init, sodium_memzero};
+use libsodium_sys::{crypto_sign_keypair, sodium_init, sodium_memzero};
 use std::error::Error;
 use std::fs::File;
 use std::io::Write;
@@ -21,14 +21,14 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     println!("private key: {}, public key: {}", cli.secret, cli.public);
 
-    let mut secret = [0u8; 32];
+    let mut secret = [0u8; 64];
     let mut public = [0u8; 32];
 
     if unsafe { sodium_init() } < 0 {
         return Err("failed to init libsodium".into());
     }
 
-    if unsafe { crypto_kx_keypair(secret.as_mut_ptr(), public.as_mut_ptr()) } != 0 {
+    if unsafe { crypto_sign_keypair(public.as_mut_ptr(), secret.as_mut_ptr()) } != 0 {
         return Err("failed to generate keypair".into());
     }
 
@@ -39,7 +39,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     file.write_all(&public)?;
 
     unsafe {
-        sodium_memzero(secret.as_mut_ptr().cast(), 32);
+        sodium_memzero(secret.as_mut_ptr().cast(), 64);
     }
 
     println!("Generation successful!");
