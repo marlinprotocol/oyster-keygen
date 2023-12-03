@@ -1,6 +1,7 @@
 use clap::Parser;
 use rand;
-use secp256k1::SecretKey;
+use rand::rngs::OsRng;
+use secp256k1::generate_keypair;
 use std::error::Error;
 use std::{fs::File, io::Write};
 
@@ -9,16 +10,27 @@ use std::{fs::File, io::Write};
 struct Cli {
     /// path to private key file
     #[arg(short, long)]
-    secretpath: String,
+    secret: String,
+
+    /// path to public key file
+    #[arg(short, long)]
+    public: String,
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
     let cli = Cli::parse();
-    println!("secret key path: {}", cli.secretpath);
-    let mut rng = rand::thread_rng();
 
-    let seckey = SecretKey::new(&mut rng);
-    let mut file = File::create(cli.secretpath)?;
-    file.write_all(&seckey.secret_bytes())?;
+    println!("private key: {}, public key: {}", cli.secret, cli.public);
+
+    let (secret, public) = generate_keypair(&mut OsRng);
+
+    let mut file = File::create(cli.secret)?;
+    file.write_all(&secret.secret_bytes())?;
+
+    let mut file = File::create(cli.public)?;
+    file.write_all(&public.serialize_uncompressed())?;
+
+    println!("Generation successful!");
+
     Ok(())
 }
