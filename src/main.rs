@@ -1,5 +1,7 @@
 use clap::Parser;
 use libsodium_sys::{crypto_sign_keypair, sodium_init, sodium_memzero};
+use rand;
+use secp256k1::SecretKey;
 use std::error::Error;
 use std::fs::File;
 use std::io::Write;
@@ -14,12 +16,19 @@ struct Cli {
     /// path to public key file
     #[arg(short, long)]
     public: String,
+
+    /// path to secp private key file
+    #[arg(short = 'k', long)]
+    secpsecret: String,
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
     let cli = Cli::parse();
 
-    println!("private key: {}, public key: {}", cli.secret, cli.public);
+    println!(
+        "private key: {}, public key: {}, secp private key: {}",
+        cli.secret, cli.public, cli.secpsecret
+    );
 
     let mut secret = [0u8; 64];
     let mut public = [0u8; 32];
@@ -41,6 +50,12 @@ fn main() -> Result<(), Box<dyn Error>> {
     unsafe {
         sodium_memzero(secret.as_mut_ptr().cast(), 64);
     }
+
+    // generating secp private key
+    let mut rng = rand::thread_rng();
+    let seckey = SecretKey::new(&mut rng);
+    let mut file = File::create(cli.secpsecret)?;
+    file.write_all(&seckey.secret_bytes())?;
 
     println!("Generation successful!");
 

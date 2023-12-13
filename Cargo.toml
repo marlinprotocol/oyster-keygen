@@ -8,9 +8,10 @@ edition = "2021"
 [dependencies]
 clap = { version = "4.0.26", features = ["derive"] }
 libsodium-sys-stable = "1.19.27"
+rand = "0.8.5"
+secp256k1 = {version = "0.28.0", features = ["rand-std"]}
 
 [profile.release]
 strip = true
 lto = true
 panic = "abort"
-
