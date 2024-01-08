@@ -8,6 +8,8 @@ edition = "2021"
 [dependencies]
 clap = { version = "4.0.26", features = ["derive"] }
 libsodium-sys-stable = "1.19.27"
+rand = "0.8.5"
+secp256k1 = {version = "0.28.0", features = ["rand-std", "rand", "global-context"]}
 
 [profile.release]
 strip = true
@@ -17,4 +19,8 @@ panic = "abort"
 [[bin]]
 name = "keygen_ed25519"
 path = "src/ed25519.rs"
+
+[[bin]]
+name = "keygen_secp256k1"
+path = "src/secp256k1.rs"
 
