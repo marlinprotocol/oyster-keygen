@@ -14,3 +14,7 @@ strip = true
 lto = true
 panic = "abort"
 
+[[bin]]
+name = "keygen_ed25519"
+path = "src/ed25519.rs"
+
