@@ -28,7 +28,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     file.write_all(&secret.secret_bytes())?;
 
     let mut file = File::create(cli.public)?;
-    file.write_all(&public.serialize_uncompressed())?;
+    file.write_all(&public.serialize_uncompressed()[1..])?;
 
     println!("Generation successful!");
 
