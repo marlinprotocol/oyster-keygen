@@ -17,10 +17,9 @@ lto = true
 panic = "abort"
 
 [[bin]]
-name = "keygen_ed25519"
+name = "keygen-ed25519"
 path = "src/ed25519.rs"
 
 [[bin]]
-name = "keygen_secp256k1"
+name = "keygen-secp256k1"
 path = "src/secp256k1.rs"
-
