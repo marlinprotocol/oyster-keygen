@@ -1,5 +1,4 @@
 use clap::Parser;
-use rand;
 use rand::rngs::OsRng;
 use secp256k1::generate_keypair;
 use std::error::Error;
