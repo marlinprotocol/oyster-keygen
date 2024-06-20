@@ -13,6 +13,7 @@ secp256k1 = {version = "0.28.2", features = ["rand-std", "rand", "global-context
 strip = true
 lto = true
 panic = "abort"
+codegen-units = 1
 
 [[bin]]
 name = "keygen-ed25519"
