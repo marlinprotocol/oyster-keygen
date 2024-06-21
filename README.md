@@ -24,13 +24,17 @@ docker run --rm -v `pwd`:/code rust@sha256:ed7795c6eaccae53be35939e883e8c3de0197
 docker run --rm -v `pwd`:/code rust@sha256:c428882ff081342a9661fb13a1d059ecdc0b6e979ffec64b80371cf20a2088b0 /code/build-arm64.sh
 ```
 
+The prebuilt binaries are then compressed using `upx` version 4.2.4. Expected sha256 checksums are available along with the links to the prebuilt binaries.
+
 ## ed25519
 
 ### Prebuilt binaries
 
 amd64: http://public.artifacts.marlin.pro/projects/enclaves/keygen-ed25519_v1.0.0_linux_amd64
+checksum: e68c55cab8ff21de5b9c9ab831b3365717cceddf5f0ad82fee57d1ef40231d3c
 
 arm64: http://public.artifacts.marlin.pro/projects/enclaves/keygen-ed25519_v1.0.0_linux_arm64
+checksum: 9073cb46950c392bba4f0439ba836bce09039cb0a2bf59cd2009fe7593d1415f
 
 ### Usage
 
@@ -68,8 +72,10 @@ $ xxd ed25519.pub
 ### Prebuilt binaries
 
 amd64: http://public.artifacts.marlin.pro/projects/enclaves/keygen-secp256k1_v1.0.0_linux_amd64
+checksum: 9d4344e491413abb559e507ccfcd4397edf736199fb1a1a39c9ae9c576655579
 
 arm64: http://public.artifacts.marlin.pro/projects/enclaves/keygen-secp256k1_v1.0.0_linux_arm64
+checksum: cbb170eff52f0938aab9dd85f7174f5e7d7858e3b2be8a179f188f64cff4d4e7
 
 ### Usage
 
