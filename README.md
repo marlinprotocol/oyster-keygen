@@ -1,5 +1,9 @@
 ![Marlin Oyster Logo](./logo.svg)
 
+# Archival
+
+Archived in favour of https://github.com/marlinprotocol/oyster-monorepo
+
 # Keygen
 
 Generate keypairs for use in other applications. The repository contains generators for the following cryptosystems:
